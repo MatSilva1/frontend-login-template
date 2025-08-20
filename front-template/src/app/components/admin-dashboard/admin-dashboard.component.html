@@ -1,0 +1,88 @@
+<div class="admin-dashboard-container">
+  <div class="dashboard-header">
+    <h1>Painel Administrativo</h1>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="alert alert-danger">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <div class="dashboard-controls">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm()"
+        (ngModelChange)="onSearch()"
+        placeholder="Buscar usuários..."
+        class="form-control"
+      />
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-spinner">
+      Carregando usuários...
+    </div>
+  } @else {
+    <div class="users-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Papel</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.id) {
+            <tr>
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <select
+                  [(ngModel)]="user.role"
+                  (ngModelChange)="changeUserRole(user.id, $event)"
+                >
+                  <option value="user">Usuário</option>
+                  <option value="admin">Administrador</option>
+                </select>
+              </td>
+              <td>
+                <select
+                  [(ngModel)]="user.status"
+                  (ngModelChange)="changeUserStatus(user.id, $event)"
+                >
+                  <option value="active">Ativo</option>
+                  <option value="suspended">Suspenso</option>
+                </select>
+              </td>
+              <td>
+                <button class="btn btn-danger">Excluir</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination">
+      <button
+        (click)="onPageChange(currentPage() - 1)"
+        [disabled]="currentPage() === 1"
+      >
+        Anterior
+      </button>
+      <span>Página {{ currentPage() }}</span>
+      <button
+        (click)="onPageChange(currentPage() + 1)"
+        [disabled]="users().length < itemsPerPage()"
+      >
+        Próxima
+      </button>
+    </div>
+  }
+</div>

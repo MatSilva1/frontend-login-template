@@ -1,0 +1,176 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-header">
+      <h2>Meu Perfil</h2>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="alert alert-danger">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    @if (successMessage()) {
+      <div class="alert alert-success">
+        {{ successMessage() }}
+      </div>
+    }
+
+    @if (isLoading()) {
+      <div class="loading-spinner">
+        Carregando...
+      </div>
+    } @else {
+      <div class="profile-content">
+        <div class="profile-image-section">
+          <div class="profile-image-container">
+            <img
+              [src]="profileImagePreview() || '/assets/default-avatar.png'"
+              alt="Foto de Perfil"
+              class="profile-image"
+            />
+            @if (isEditing()) {
+              <input
+                type="file"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                class="file-input"
+              />
+            }
+          </div>
+        </div>
+
+        <form
+          [formGroup]="profileForm"
+          (ngSubmit)="updateProfile()"
+          class="profile-form"
+        >
+          <div class="form-group">
+            <label for="name">Nome</label>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="form-control"
+              [readonly]="!isEditing()"
+              [class.is-invalid]="isFieldInvalid(profileForm, 'name')"
+            />
+            @if (isFieldInvalid(profileForm, 'name')) {
+              <div class="invalid-feedback">
+                {{ getErrorMessage(profileForm, 'name') }}
+              </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              class="form-control"
+              readonly
+            />
+          </div>
+
+          @if (userProfile()?.role) {
+            <div class="form-group">
+              <label>Nível de Acesso</label>
+              <input
+                type="text"
+                [value]="userProfile()?.role === 'admin' ? 'Administrador' : 'Usuário Padrão'"
+                class="form-control"
+                readonly
+              />
+            </div>
+          }
+
+          @if (isEditing()) {
+            <div class="form-actions">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="profileForm.invalid"
+              >
+                Salvar Alterações
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="isEditing.set(false)"
+              >
+                Cancelar
+              </button>
+            </div>
+          } @else {
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="isEditing.set(true)"
+              >
+                Editar Perfil
+              </button>
+            </div>
+          }
+        </form>
+
+        <div class="password-section">
+          <h3>Alterar Senha</h3>
+          <form
+            [formGroup]="passwordForm"
+            (ngSubmit)="updatePassword()"
+          >
+            <div class="form-group">
+              <label for="currentPassword">Senha Atual</label>
+              <input
+                type="password"
+                id="currentPassword"
+                formControlName="currentPassword"
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid(passwordForm, 'currentPassword')"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="newPassword">Nova Senha</label>
+              <input
+                type="password"
+                id="newPassword"
+                formControlName="newPassword"
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid(passwordForm, 'newPassword')"
+              />
+              @if (isFieldInvalid(passwordForm, 'newPassword')) {
+                <div class="invalid-feedback">
+                  {{ getErrorMessage(passwordForm, 'newPassword') }}
+                </div>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="confirmNewPassword">Confirmar Nova Senha</label>
+              <input
+                type="password"
+                id="confirmNewPassword"
+                formControlName="confirmNewPassword"
+                class="form-control"
+                [class.is-invalid]="isFieldInvalid(passwordForm, 'confirmNewPassword')"
+              />
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="passwordForm.invalid"
+              >
+                Alterar Senha
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    }
+  </div>
+</div>

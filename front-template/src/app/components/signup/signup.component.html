@@ -1,0 +1,123 @@
+<div class="signup-container">
+  <div class="signup-card">
+    <h2>Criar Conta</h2>
+
+    @if (errorMessage()) {
+      <div class="alert alert-danger">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <form
+      [formGroup]="signupForm"
+      (ngSubmit)="onSignup()"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="name">Nome Completo</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('name')"
+          placeholder="Digite seu nome"
+        />
+        @if (isFieldInvalid('name')) {
+          <div class="invalid-feedback">
+            {{ getErrorMessage('name') }}
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('email')"
+          placeholder="Digite seu e-mail"
+        />
+        @if (isFieldInvalid('email')) {
+          <div class="invalid-feedback">
+            {{ getErrorMessage('email') }}
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('password')"
+          placeholder="Digite sua senha"
+        />
+        @if (isFieldInvalid('password')) {
+          <div class="invalid-feedback">
+            {{ getErrorMessage('password') }}
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Senha</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('confirmPassword')"
+          placeholder="Confirme sua senha"
+        />
+        @if (isFieldInvalid('confirmPassword')) {
+          <div class="invalid-feedback">
+            {{ getErrorMessage('confirmPassword') }}
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de Usuário</label>
+        <div class="role-selection">
+          <label class="radio-inline">
+            <input
+              type="radio"
+              formControlName="role"
+              value="user"
+            /> Usuário Padrão
+          </label>
+          <label class="radio-inline">
+            <input
+              type="radio"
+              formControlName="role"
+              value="admin"
+            /> Administrador
+          </label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="signupForm.invalid || isLoading()"
+        >
+          @if (isLoading()) {
+            Cadastrando...
+          } @else {
+            Criar Conta
+          }
+        </button>
+      </div>
+    </form>
+
+    <div class="login-link">
+      Já tem uma conta? <a routerLink="/login">Fazer Login</a>
+    </div>
+  </div>
+</div>
