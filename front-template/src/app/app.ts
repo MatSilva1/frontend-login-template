@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterModule } from '@angular/router';
+import { LoginComponent } from './pages/login/login.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  standalone: true,
+  imports: [RouterOutlet, RouterModule, LoginComponent],
+  template: `
+    <app-login></app-login>
+    <router-outlet></router-outlet>
+  `
 })
-export class App {
-  protected title = 'front-template';
-}
+export class AppComponent {}
