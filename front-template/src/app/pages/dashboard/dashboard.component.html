@@ -1,0 +1,110 @@
+<div class="dashboard-container">
+  <!-- Cartões de resumo -->
+  <mat-grid-list cols="3" rowHeight="200px" gutterSize="20px">
+    <!-- Total de Usuários -->
+    <mat-grid-tile>
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>group</mat-icon>
+            Total de Usuários
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ dashboardData.totalUsers }}</h2>
+          <p>Usuários cadastrados</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <!-- Usuários Ativos -->
+    <mat-grid-tile>
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>person</mat-icon>
+            Usuários Ativos
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ dashboardData.activeUsers }}</h2>
+          <p>{{ calculateActiveUserPercentage() }}% dos usuários</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+    <!-- Receita Total -->
+    <mat-grid-tile>
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>attach_money</mat-icon>
+            Receita Total
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ formatCurrency(dashboardData.revenue) }}</h2>
+          <p>Receita acumulada</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!-- Seção de Atividades Recentes -->
+  <mat-card class="activity-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>event</mat-icon>
+        Atividades Recentes
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="dashboardData.recentActivities" class="activity-table">
+        <!-- Coluna Usuário -->
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef>Usuário</th>
+          <td mat-cell *matCellDef="let activity">{{ activity.user }}</td>
+        </ng-container>
+
+        <!-- Coluna Ação -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Ação</th>
+          <td mat-cell *matCellDef="let activity">{{ activity.action }}</td>
+        </ng-container>
+
+        <!-- Coluna Timestamp -->
+        <ng-container matColumnDef="timestamp">
+          <th mat-header-cell *matHeaderCellDef>Data</th>
+          <td mat-cell *matCellDef="let activity">
+            {{ formatDate(activity.timestamp) }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="activityColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: activityColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Seção de Vendas -->
+  <mat-card class="sales-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>bar_chart</mat-icon>
+        Resumo de Vendas
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="sales-chart">
+        <div
+          *ngFor="let sale of salesData"
+          class="sales-bar"
+          [style.height.%]="(sale.sales / 1000)"
+        >
+          <span class="sales-value">{{ formatCurrency(sale.sales) }}</span>
+          <span class="sales-month">{{ sale.month }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
