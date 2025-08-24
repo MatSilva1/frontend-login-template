@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -25,7 +26,10 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
+
+
 export class LayoutComponent {
+  constructor(private router: Router) {}
   // Variável para controlar o estado do sidebar
   sidebarOpened = false;
 
@@ -57,5 +61,6 @@ export class LayoutComponent {
   logout() {
     // Lógica de logout será implementada depois
     console.log('Logout');
+    this.router.navigate(['/']);
   }
 }

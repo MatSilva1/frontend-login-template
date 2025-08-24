@@ -1,0 +1,83 @@
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <div class="profile-header">
+      <div class="avatar-container">
+        <img
+          [src]="userProfile.avatarUrl"
+          alt="{{ userProfile.name }}"
+          class="profile-avatar"
+        >
+        <div class="avatar-overlay">
+          <button mat-icon-button>
+            <mat-icon>camera_alt</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="profile-info">
+        <h2>{{ userProfile.name }}</h2>
+        <mat-chip-set>
+          <mat-chip color="primary" selected>
+            {{ userProfile.role }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="profile-details">
+      <div class="details-section">
+        <h3>Informações Pessoais</h3>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListItemIcon>email</mat-icon>
+            <span matListItemTitle>Email</span>
+            <span matListItemLine>{{ userProfile.email }}</span>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>calendar_today</mat-icon>
+            <span matListItemTitle>Data de Cadastro</span>
+            <span matListItemLine>
+              {{ formatDate(userProfile.joinDate) }}
+            </span>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon matListItemIcon>access_time</mat-icon>
+            <span matListItemTitle>Último Login</span>
+            <span matListItemLine>
+              {{ formatDate(userProfile.lastLogin) }}
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <div class="details-section">
+        <h3>Contatos</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let contact of userProfile.contacts">
+            <mat-icon matListItemIcon>{{ contact.icon }}</mat-icon>
+            <span matListItemTitle>
+              {{ contact.type === 'phone' ? 'Telefone' :
+                 contact.type === 'email' ? 'Email' : 'Social' }}
+            </span>
+            <span matListItemLine>{{ contact.value }}</span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="profile-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="editProfile()"
+      >
+        <mat-icon>edit</mat-icon>
+        Editar Perfil
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,109 @@
+<div class="settings-container">
+  <mat-card class="settings-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>settings</mat-icon>
+        Configurações
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <!-- Seção de Tema -->
+      <div class="settings-section">
+        <h3>Aparência</h3>
+        <div class="settings-item">
+          <span>Tema Escuro</span>
+          <mat-slide-toggle
+            [(ngModel)]="settings.theme"
+            (change)="toggleTheme()"
+            [checked]="settings.theme === 'dark'"
+          >
+            {{ settings.theme === 'dark' ? 'Ativado' : 'Desativado' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="settings-item">
+          <span>Idioma</span>
+          <mat-select [(ngModel)]="settings.language">
+            <mat-option
+              *ngFor="let lang of languages"
+              [value]="lang.value"
+            >
+              {{ lang.label }}
+            </mat-option>
+          </mat-select>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Seção de Notificações -->
+      <div class="settings-section">
+        <h3>Notificações</h3>
+        <div class="settings-item">
+          <span>Notificações por Email</span>
+          <mat-slide-toggle [(ngModel)]="settings.notifications.email">
+            {{ settings.notifications.email ? 'Ativado' : 'Desativado' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="settings-item">
+          <span>Notificações por SMS</span>
+          <mat-slide-toggle [(ngModel)]="settings.notifications.sms">
+            {{ settings.notifications.sms ? 'Ativado' : 'Desativado' }}
+          </mat-slide-toggle>
+        </div>
+
+        <div class="settings-item">
+          <span>Notificações por Push</span>
+          <mat-slide-toggle [(ngModel)]="settings.notifications.pushNotifications">
+            {{ settings.notifications.pushNotifications ? 'Ativado' : 'Desativado' }}
+          </mat-slide-toggle>
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <!-- Seção de Privacidade -->
+      <div class="settings-section">
+        <h3>Privacidade</h3>
+        <div class="settings-item">
+          <span>Visibilidade do Perfil</span>
+          <mat-radio-group [(ngModel)]="settings.privacy.profileVisibility">
+            <mat-radio-button value="public">Público</mat-radio-button>
+            <mat-radio-button value="friends">Amigos</mat-radio-button>
+            <mat-radio-button value="private">Privado</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="settings-item">
+          <span>Compartilhamento de Dados</span>
+          <mat-slide-toggle [(ngModel)]="settings.privacy.dataSharing">
+            {{ settings.privacy.dataSharing ? 'Ativado' : 'Desativado' }}
+          </mat-slide-toggle>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="settings-actions">
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="resetToDefault()"
+      >
+        <mat-icon>refresh</mat-icon>
+        Restaurar Padrão
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="saveSettings()"
+      >
+        <mat-icon>save</mat-icon>
+        Salvar Configurações
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
