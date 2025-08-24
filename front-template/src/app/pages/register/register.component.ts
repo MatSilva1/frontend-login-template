@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { Router } from '@angular/router';
 
 import { RegisterCredentials } from '../../models/register.model';
 
@@ -36,7 +37,7 @@ export class RegisterComponent implements OnInit {
   hidePassword = true;
   hideConfirmPassword = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.registerForm = this.fb.group({
       name: ['', [
         Validators.required,
@@ -74,6 +75,7 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       const credentials: RegisterCredentials = this.registerForm.value;
       console.log('Register credentials:', credentials);
+      this.router.navigate(['/']);
       // Aqui será implementada a lógica de registro
     } else {
       this.markFormGroupTouched(this.registerForm);
